@@ -1,130 +1,92 @@
 [BITS 16]
 [ORG 0x7C00]
 
+KERNEL_OFFSET equ 0x1000    ; This MUST match your linker.ld start address
+
 start:
-    mov si, buffer
-    mov di, buffer
+    mov [BOOT_DRIVE], dl    ; BIOS stores boot drive in DL, save it!
 
-read_key:
-    mov ah, 0x00
-    int 0x16
+    ; Setup stack
+    xor ax, ax
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    mov sp, 0x7C00
 
-    cmp al, 0x08
-    je backspace
-    cmp al, 0x0D
-    je enter
+    ; --- NEW: LOAD KERNEL FROM DISK ---
+    mov bx, KERNEL_OFFSET   ; Destination address
+    mov dh, 15              ; Number of sectors to read (increase if kernel grows)
+    mov dl, [BOOT_DRIVE]
+    call disk_load
+    ; ----------------------------------
 
-    mov [si], al
-    inc si
-
-    mov ah, 0x0E
-    int 0x10
-    jmp read_key
-
-strcmp:
-    push si
-    push di
-.compare:
-    mov al, [si]
-    mov bl, [di]
-    cmp al, bl
-    jne .not_equal
-    cmp al, 0
-    je .equal
-    inc si
-    inc di
-    jmp .compare
-.not_equal:
-    pop di
-    pop si
-    ret                ; ZF is 0
-.equal:
-    pop di
-    pop si
-    cmp al, al         ; Force ZF = 1 (match!)
-    ret
-
-backspace:
-    cmp si, di
-    je read_key
-    dec si
-    mov byte [si], 0
-    mov ah, 0x0E
-    mov al, 0x08
-    int 0x10
-    mov al, ' '
-    int 0x10
-    mov al, 0x08
-    int 0x10
-    jmp read_key
-
-enter:
-    mov byte [si], 0
+    cli                     ; Disable interrupts for GDT switch
+    lgdt [gdt_descriptor]
     
-    ; Check HELP
-    mov si, buffer
-    mov di, cmd_help
-    call strcmp
-    je do_help
+    mov eax, cr0
+    or eax, 1
+    mov cr0, eax
+    
+    jmp CODE_SEG:protected_start
 
-    ; Check CLEAR
-    mov si, buffer
-    mov di, cmd_clear
-    call strcmp
-    je do_clear
-
-    ; If no match
-    mov ah, 0x0E
-    mov al, 0x0D
-    int 0x10
-    mov al, 0x0A
-    int 0x10
-    mov si, msg_unknown
-    call print_string
-    jmp reset_input
-
-do_help:
-    mov ah, 0x0E
-    mov al, 0x0D
-    int 0x10
-    mov al, 0x0A
-    int 0x10
-    mov si, msg_help
-    call print_string
-    jmp reset_input
-
-do_clear:
-    mov ah, 0x00
-    mov al, 0x03
-    int 0x10
-    mov si, buffer     ; Reset pointer
-    jmp read_key
-
-reset_input:
-    mov ah, 0x0E
-    mov al, 0x0D
-    int 0x10
-    mov al, 0x0A
-    int 0x10
-    mov si, buffer
-    jmp read_key
-
-print_string:
-    lodsb
-    cmp al, 0
-    je .done
-    mov ah, 0x0E
-    int 0x10
-    jmp print_string
-.done:
+; --- DISK LOAD FUNCTION ---
+disk_load:
+    push dx
+    mov ah, 0x02            ; BIOS read sector function
+    mov al, dh              ; Read DH sectors
+    mov ch, 0x00            ; Cylinder 0
+    mov dh, 0x00            ; Head 0
+    mov cl, 0x02            ; Start reading from second sector (after bootloader)
+    int 0x13
+    jc disk_error           ; Jump if error (Carry Flag set)
+    pop dx
     ret
 
-cmd_help db 'help', 0
-cmd_clear db 'clear', 0
-msg_help db 'Commands: help clear', 0
-msg_unknown db 'Unknown command', 0
+disk_error:
+    jmp $                   ; Stay here if disk fails
 
-buffer times 64 db 0
+gdt_start:
+gdt_null:
+    dq 0
+gdt_code:
+    dw 0xFFFF               ; Limit
+    dw 0x0000               ; Base
+    db 0x00                 ; Base
+    db 10011010b            ; Access (Notice: no 0x prefix here!)
+    db 11001111b            ; Flags
+    db 0x00                 ; Base
+gdt_data:
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00 
+    db 10010010b            ; Access for Data (Corrected)
+    db 11001111b
+    db 0x00
+
+gdt_end:
+
+gdt_descriptor:
+    dw gdt_end - gdt_start - 1
+    dd gdt_start
+
+CODE_SEG equ gdt_code - gdt_start
+DATA_SEG equ gdt_data - gdt_start
+BOOT_DRIVE db 0             ; Variable to store drive number
+
+[BITS 32]
+protected_start:
+    mov ax, DATA_SEG
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    
+    mov esp, 0x90000        ; Set up 32-bit stack
+    
+    call KERNEL_OFFSET      ; JUMP TO THE ADDRESS, not the name!
+
+    jmp $
 
 times 510 - ($ - $$) db 0
 dw 0xAA55
