@@ -84,7 +84,7 @@ protected_start:
     
     mov esp, 0x90000        ; Set up 32-bit stack
     
-    call KERNEL_OFFSET      ; JUMP TO THE ADDRESS, not the name!
+    jmp KERNEL_OFFSET      ; JUMP TO THE ADDRESS, not the name!
 
     jmp $
 
