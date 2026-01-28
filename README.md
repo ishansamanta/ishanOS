@@ -10,7 +10,8 @@
 ## Author: "TOP 150 PYTHON PROGRAMMING QUESTIONS"
 ### A freely available guide designed to help beginners master the fundamentals of Python through practical problem-solving.
 
-# Ishan Vault
+# Ishan Vault -- part of Ishan Organisation
+## Founder of Ishan Organisation, an autonomous organisation for tech oriented development.
 ## The creator of Ishan Vault, a free digital sanctuary for academic resources and project archives, helping students find the tools they need to succeed.
 
 # Founder of M.O.O.N
@@ -18,7 +19,7 @@
 
 Current Focus: Ishan OS
 The goal of this repository is to document the journey of building a functional OS.
-# A glance to my OS:
+# A glance to my OS development progress: (date: 27th Jan, 2026)
 <img width="1600" height="900" alt="2026-01-27" src="https://github.com/user-attachments/assets/87da4b6e-47f2-48cb-95ed-98974d5ae489" />
 
 # 🤝 Connect with Me
