@@ -22,8 +22,7 @@ void kernel_main() {
     idt_install();
     clear_screen();
 
-    // Re-aligned Ishan OS ASCII Art (using double backslashes for C safety)
-    // Starting at X=24 to center this specific width
+
     print_at(" _____     _                 ____  ____  ", 20, 10, 0x0A);
     print_at("|_   _|   | |               / __ \\/ ___| ", 20, 11, 0x0A);
     print_at("  | |  ___| |__   __ _ _ __| |  | \\___ \\ ", 20, 12, 0x0A);
@@ -31,8 +30,8 @@ void kernel_main() {
     print_at(" _| |_\\__ \\ | | | (_| | | | | |__| |___/ /", 20, 14, 0x0A);
     print_at("|_____|___/_| |_|\\__,_|_| |_|\\____/|____/ ", 20, 15, 0x0A);
 
-    // Subtitle: Centered manually for an 80-column screen
-    // (80 - 57 characters) / 2 = 11.5 -> Starting at X=11
+    
+   
     print_at("--- (c) 2026 All Rights Reserved, by ISHAN ORGANISATION ---", 11, 18, 0x0B);
 
     while (1);
