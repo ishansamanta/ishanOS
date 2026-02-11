@@ -19,7 +19,7 @@
 
 Current Focus: Ishan OS
 The goal of this repository is to document the journey of building a functional OS.
-# A glance to my OS development progress: (date: 27th Jan, 2026)
+# A glance to my OS development progress: (date: 27th Jan, 2026) (IshanOS welcome page -- Booting From QEMU)
 <img width="1600" height="900" alt="2026-01-27" src="https://github.com/user-attachments/assets/87da4b6e-47f2-48cb-95ed-98974d5ae489" />
 
 # 🤝 Connect with Me
