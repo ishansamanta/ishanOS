@@ -7,7 +7,7 @@
 ### "I believe in understanding the magic under the hood, one line of assembly/C at a time."
 
 # Key Contributions & Projects
-## Author: "TOP 150 PYTHON PROGRAMMING QUESTIONS"
+## Author: "TOP 150 PYTHON PROGRAMMING QUESTIONS" (also available in scribd)
 ### A freely available guide designed to help beginners master the fundamentals of Python through practical problem-solving.
 
 # Ishan Vault -- part of Ishan Organisation
