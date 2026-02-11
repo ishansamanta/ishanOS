@@ -14,7 +14,7 @@
 ## Founder of Ishan Organisation, an autonomous organisation for tech oriented development.
 ## The creator of Ishan Vault, a free digital sanctuary for academic resources and project archives, helping students find the tools they need to succeed.
 
-# Founder of M.O.O.N
+# Founder of M.O.O.N,, (website coming soon...)
 ### Founder of the Mechatronics Oriented Observatory and Neural network (M.O.O.N), a robotics group dedicated to exploring the intersection of hardware, mechanics, and AI.
 
 Current Focus: Ishan OS
