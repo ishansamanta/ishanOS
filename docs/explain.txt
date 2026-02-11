@@ -1,2 +1,5 @@
 To Have an idea regarding Assembly visit: https://www.tutorialspoint.com/assembly_programming/index.htm
+This Text file will act as a guide and will teach you the fundamentals behind this project. This text file will be updated soon...
+
+
 
