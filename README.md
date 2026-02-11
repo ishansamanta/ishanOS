@@ -1,5 +1,6 @@
 #  Ishan OS - " Be the one who learns words to write a book, not the ones who only masters it....."  [PROJECT UNDER DEVELOPMENT]
 ### "Crafting a Custom CLI Ecosystem from the Ground Up"
+#### Some code snippets and referrences have been taken from other sources.
 <p align="center"> <img src="https://img.shields.io/badge/Developer-Solo-blueviolet?style=for-the-badge&logo=github" /> <img src="https://img.shields.io/badge/Origin-India-orange?style=for-the-badge" /> <img src="https://img.shields.io/badge/Status-In--Development-green?style=for-the-badge" /> <img src="https://img.shields.io/badge/Interface-CLI-lightgrey?style=for-the-badge" /> </p>
 
 # About the Architect
